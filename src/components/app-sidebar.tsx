@@ -86,6 +86,7 @@ export class AppSidebar extends React.Component<React.ComponentProps<typeof Side
           {/* <NavProjects projects={data.projects} /> */}
         </SidebarContent>
         <SidebarFooter>
+
           <NavUser user={data.user} />
         </SidebarFooter>
         <SidebarRail />
