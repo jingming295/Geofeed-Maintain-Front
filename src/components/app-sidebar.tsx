@@ -1,20 +1,21 @@
 import * as React from "react"
 import
 {
-  AudioWaveform,
   Command,
   GalleryVerticalEnd,
   SquareTerminal,
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
-import TeamSwitcher from "@/components/team-switcher"
 import
 {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar"
 // import NavProjects from "./nav-projects"
@@ -29,20 +30,10 @@ const data = {
   },
   teams: [
     {
-      name: "Acme Inc",
+      name: "Geofeed Maintain",
       logo: GalleryVerticalEnd,
       plan: "Enterprise",
-    },
-    {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
-    },
+    }
   ],
   navMain: [
     {
@@ -79,14 +70,29 @@ export class AppSidebar extends React.Component<React.ComponentProps<typeof Side
     return (
       <Sidebar collapsible="icon" {...props}>
         <SidebarHeader>
-          <TeamSwitcher teams={data.teams} />
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton size="lg" asChild>
+                <a href="#">
+                  <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+                    <Command className="size-4" />
+                  </div>
+                  <div className="grid flex-1 text-left text-sm leading-tight">
+                    <span className="truncate font-semibold">Geofeed Maintain</span>
+                    <span className="truncate text-xs">v1.0.0</span>
+                  </div>
+                </a>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
         </SidebarHeader>
         <SidebarContent>
           <NavMain items={data.navMain} />
           {/* <NavProjects projects={data.projects} /> */}
         </SidebarContent>
-        <SidebarFooter>
 
+        {/* 底部 */}
+        <SidebarFooter>
           <NavUser user={data.user} />
         </SidebarFooter>
         <SidebarRail />
