@@ -3,21 +3,28 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbP
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@radix-ui/react-separator";
 import { Component, ReactNode } from "react";
-import { AddAS } from "./addAs/AddAs";
+import { ManageAS } from "@/page/dashboard/AS/ManageAS";
+import { Route, Routes } from "react-router-dom";
+import { RouterTools, withRouter } from "@/components/HOC/WithRouter";
 
 interface DashBoardProps
 {
     onLogout: () => void
+    routerTools: RouterTools
 }
 
-export class DashBoard extends Component<DashBoardProps>
+class DashBoard extends Component<DashBoardProps>
 {
 
     render(): ReactNode
     {
+        const { routerTools } = this.props
+
         return (
             <SidebarProvider>
-                <AppSidebar />
+                <AppSidebar
+                    routerTools={routerTools}
+                />
                 <SidebarInset>
                     <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
                         <div className="flex items-center gap-2 px-4">
@@ -38,10 +45,22 @@ export class DashBoard extends Component<DashBoardProps>
                             </Breadcrumb>
                         </div>
                     </header>
-                    <AddAS />
+
+                    <Routes>
+
+                        <Route
+                            path="/dashboard"
+                            element={<ManageAS />}
+                        />
+                    </Routes>
+
                 </SidebarInset>
             </SidebarProvider>
 
         )
     }
 }
+
+const withRouterDashBoard = withRouter(DashBoard)
+
+export default withRouterDashBoard

@@ -20,6 +20,7 @@ import
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar"
 import { Component } from "react"
+import { RouterTools } from "./HOC/WithRouter"
 
 type NavMainProps = {
   items: {
@@ -31,11 +32,17 @@ type NavMainProps = {
       title: string
       url: string
     }[]
-  }[]
+  }[],
+  routerTools: RouterTools
 }
 
 export class NavMain extends Component<NavMainProps>
 {
+  private navigate(path: string)
+  {
+    console.log(path)
+    this.props.routerTools.navigate(path)
+  }
   render()
   {
     const { items } = this.props
@@ -63,7 +70,7 @@ export class NavMain extends Component<NavMainProps>
                     {item.items?.map((subItem) => (
                       <SidebarMenuSubItem key={subItem.title}>
                         <SidebarMenuSubButton asChild>
-                          <a href={subItem.url}>
+                          <a className="cursor-pointer select-none" onClick={() => this.navigate(subItem.url)}>
                             <span>{subItem.title}</span>
                           </a>
                         </SidebarMenuSubButton>

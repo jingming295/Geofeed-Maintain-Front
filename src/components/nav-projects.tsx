@@ -25,7 +25,7 @@ import
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { withSidebar } from "./with/WithSideBar";
+import { withSidebar } from "./HOC/WithSideBar";
 
 type NavProjectsProps = {
   projects: {

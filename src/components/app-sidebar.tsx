@@ -20,6 +20,7 @@ import
 } from "@/components/ui/sidebar"
 // import NavProjects from "./nav-projects"
 import NavUser from "./nav-user"
+import { RouterTools } from "./HOC/WithRouter"
 
 // This is sample data.
 const data = {
@@ -38,35 +39,30 @@ const data = {
   navMain: [
     {
       title: "Manage",
-      url: "#",
+      url: "",
       icon: SquareTerminal,
       isActive: true,
       items: [
         {
-          title: "Overview",
-          url: "#",
-        },
-        {
-          title: "as1",
-          url: "#",
+          title: "All AS",
+          url: "/dashboard/manageas",
         }
       ],
     },
   ],
-  // projects: [
-  //   {
-  //     name: "example",
-  //     url: "#",
-  //     icon: Frame,
-  //   }
-  // ],
 }
 
-export class AppSidebar extends React.Component<React.ComponentProps<typeof Sidebar>>
+interface AppSidebarProps
+{
+  routerTools: RouterTools
+
+}
+
+export class AppSidebar extends React.Component<React.ComponentProps<typeof Sidebar> & AppSidebarProps>
 {
   render()
   {
-    const { ...props } = this.props;
+    const { routerTools, ...props } = this.props;
     return (
       <Sidebar collapsible="icon" {...props}>
         <SidebarHeader>
@@ -87,7 +83,7 @@ export class AppSidebar extends React.Component<React.ComponentProps<typeof Side
           </SidebarMenu>
         </SidebarHeader>
         <SidebarContent>
-          <NavMain items={data.navMain} />
+          <NavMain items={data.navMain} routerTools={routerTools} />
           {/* <NavProjects projects={data.projects} /> */}
         </SidebarContent>
 
