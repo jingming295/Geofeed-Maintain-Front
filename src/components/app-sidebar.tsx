@@ -45,7 +45,7 @@ const data = {
       items: [
         {
           title: "All AS",
-          url: "/dashboard/manageas",
+          url: "/dashboard/manage/as",
         }
       ],
     },

@@ -19,18 +19,17 @@ class DashBoard extends Component<DashBoardProps>
     render(): ReactNode
     {
         const { routerTools } = this.props
-
         return (
             <SidebarProvider>
                 <AppSidebar
                     routerTools={routerTools}
                 />
                 <SidebarInset>
-                    <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+                    <header className="border-b flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
                         <div className="flex items-center gap-2 px-4">
                             <SidebarTrigger className="-ml-1" />
                             <Separator orientation="vertical" className="mr-2 h-4" />
-                            <Breadcrumb>
+                            <Breadcrumb >
                                 <BreadcrumbList>
                                     <BreadcrumbItem className="hidden md:block">
                                         <BreadcrumbLink href="#">
@@ -45,14 +44,22 @@ class DashBoard extends Component<DashBoardProps>
                             </Breadcrumb>
                         </div>
                     </header>
+                    <Separator className="h-px" orientation="horizontal" decorative />
 
-                    <Routes>
+                    <div className="flex flex-1 flex-col gap-4 p-4">
+                        <Routes>
 
-                        <Route
-                            path="/dashboard"
-                            element={<ManageAS />}
-                        />
-                    </Routes>
+                            <Route
+                                path="/manage/*"
+                                element={
+                                    <Routes>
+                                        <Route path="/as" element={<ManageAS />} />
+                                    </Routes>
+                                }
+                            />
+                        </Routes>
+
+                    </div>
 
                 </SidebarInset>
             </SidebarProvider>
