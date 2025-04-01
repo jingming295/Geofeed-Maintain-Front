@@ -61,27 +61,48 @@ export class Main extends Component<object, MainState>
 
     render()
     {
+        const { userData } = this.state;
+
         return (
             <Router>
                 <Toaster richColors position="top-center" />
                 <Routes>
-                    {/* 访问 /login 时，如果已经登录，重定向到 /dashboard */}
+                    {/* 如果 userData 是 undefined，允许用户留在 login 或 dashboard */}
                     <Route
                         path="/login"
-                        element={this.state.userData ? <Navigate to="/dashboard" /> : <LoginPage onLogin={this.handleLogin} showMessage={this.showMessage} />}
+                        element={
+                            userData === null ? (
+                                <Navigate to="/login" />
+                            ) : (
+                                <LoginPage onLogin={this.handleLogin} showMessage={this.showMessage} />
+                            )
+                        }
                     />
-
-                    {/* 受保护的仪表盘页面 */}
                     <Route
-                        path="dashboard/*"
-                        element={this.state.userData ? <DashBoard onLogout={this.handleLogout} /> : <Navigate to="/login" />}
+                        path="/dashboard/*"
+                        element={
+                            userData === null ? (
+                                <Navigate to="/login" />
+                            ) : (
+                                <DashBoard onLogout={this.handleLogout} />
+                            )
+                        }
                     />
 
-                    {/* 任何未知路径都根据 `logged` 状态重定向 */}
-                    <Route path="*" element={<Navigate to={this.state.userData ? "/dashboard" : "/login"} />} />
+                    {/* 根据 userData 的不同状态进行重定向 */}
+                    <Route
+                        path="*"
+                        element={
+                            userData === null ? (
+                                <Navigate to="/login" />
+                            ) : userData ? (
+                                <Navigate to="/dashboard" />
+                            ) : null // 当 userData 为 undefined 时，停留在当前页面
+                        }
+                    />
                 </Routes>
             </Router>
-
         );
     }
+
 }
