@@ -29,34 +29,13 @@ import
     TableRow,
 } from "@/components/ui/table"
 
-
-const data: ASData[] = [
-    {
-        ASNumber: "AS12345",
-        Prefixes: 100,
-        PrefixesWithGeolocation: 80,
-        Status: true,
-    },
-    {
-        ASNumber: "AS67890",
-        Prefixes: 150,
-        PrefixesWithGeolocation: 120,
-        Status: true,
-    },
-    {
-        ASNumber: "AS67891",
-        Prefixes: 153,
-        PrefixesWithGeolocation: 110,
-        Status: false,
-    },
-];
-
-type ASData = {
+export type ASData = {
     ASNumber: string;
     Prefixes: number;
     PrefixesWithGeolocation: number;
     Status: boolean;
 };
+
 
 const columns: ColumnDef<ASData>[] = [
     {
@@ -124,13 +103,19 @@ const columns: ColumnDef<ASData>[] = [
 interface DataTableProps
 {
     table: import("@tanstack/table-core").Table<ASData>;
+    asData: ASData[]; // Pass data from parent
 }
 
 class DataTable extends React.Component<DataTableProps>
 {
+    constructor(props: DataTableProps)
+    {
+        super(props);
+    }
+
     render(): React.ReactNode
     {
-        const { table } = this.props
+        const { table } = this.props;
         return (
             <div className="w-full">
                 <div className="flex items-center py-4">
@@ -159,7 +144,7 @@ class DataTable extends React.Component<DataTableProps>
                                                         header.getContext()
                                                     )}
                                             </TableHead>
-                                        )
+                                        );
                                     })}
                                 </TableRow>
                             ))}
@@ -215,40 +200,24 @@ class DataTable extends React.Component<DataTableProps>
                     </div>
                 </div>
             </div>
-        )
+        );
     }
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function withTable<T>(Component: React.ComponentType<T>)
+function withTable<T extends { asData: ASData[] }>(
+    Component: React.ComponentType<T & { table: import("@tanstack/table-core").Table<ASData> }>
+)
 {
-    return (props: Omit<T, 'table'>) =>
+    return (props: Omit<T, "table">) =>
     {
-        const [sorting, setSorting] = React.useState<SortingState>([])
-        const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-            []
-        )
-        const [columnVisibility, setColumnVisibility] =
-            React.useState<VisibilityState>({})
-        const [rowSelection, setRowSelection] = React.useState({})
-
+        const [sorting, setSorting] = React.useState<SortingState>([]);
+        const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+        const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
+        const [rowSelection, setRowSelection] = React.useState({});
 
         const table = useReactTable({
-            data,
+            data: props.asData, // Use the data from props
             columns,
             onSortingChange: setSorting,
             onColumnFiltersChange: setColumnFilters,
@@ -264,11 +233,13 @@ function withTable<T>(Component: React.ComponentType<T>)
                 columnVisibility,
                 rowSelection,
             },
-        })
+        });
 
         return <Component {...(props as T)} table={table} />;
     };
 }
+
+
 
 const DataTableWithTable = withTable(DataTable);
 

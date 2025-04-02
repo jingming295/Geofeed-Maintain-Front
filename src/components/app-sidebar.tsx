@@ -2,7 +2,6 @@ import * as React from "react"
 import
 {
   Command,
-  GalleryVerticalEnd,
   SquareTerminal,
 } from "lucide-react"
 
@@ -21,48 +20,69 @@ import
 // import NavProjects from "./nav-projects"
 import NavUser from "./nav-user"
 import { RouterTools } from "./HOC/WithRouter"
-
-// This is sample data.
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  teams: [
-    {
-      name: "Geofeed Maintain",
-      logo: GalleryVerticalEnd,
-      plan: "Enterprise",
-    }
-  ],
-  navMain: [
-    {
-      title: "Manage",
-      url: "",
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
-        {
-          title: "All AS",
-          url: "/dashboard/manage/as",
-        }
-      ],
-    },
-  ],
-}
+import { ASNData } from "@/types/ASN"
+import { UserData } from "@/types/Auth"
 
 interface AppSidebarProps
 {
   routerTools: RouterTools
+  asData?: ASNData[];
+  userData?: UserData | null
 
 }
 
 export class AppSidebar extends React.Component<React.ComponentProps<typeof Sidebar> & AppSidebarProps>
 {
+
+  constructor(props: React.ComponentProps<typeof Sidebar> & AppSidebarProps)
+  {
+    super(props);
+  }
+
   render()
   {
-    const { routerTools, ...props } = this.props;
+    const { routerTools, asData, ...props } = this.props;
+    const user = {
+      name: '',
+      email: '',
+      avatar: '',
+    }
+
+    if (this.props.userData)
+    {
+      user.name = this.props.userData.email.split("@")[0]
+      user.email = this.props.userData.email
+      user.avatar = this.props.userData.avatar
+    }
+
+    const navManageItems = [
+      {
+        title: "All AS",
+        url: "/dashboard/manage/as",
+      }
+    ]
+
+    if (asData)
+    {
+      asData.forEach((item) =>
+      {
+        navManageItems.push({
+          title: item.asn.asName,
+          url: `/dashboard/manage/prefixes?as=${item.asn.asNumber}`,
+        })
+      })
+    }
+
+    const navMain = [
+      {
+        title: "Manage",
+        url: "",
+        icon: SquareTerminal,
+        isActive: true,
+        items: navManageItems
+      },
+    ]
+
     return (
       <Sidebar collapsible="icon" {...props}>
         <SidebarHeader>
@@ -83,13 +103,13 @@ export class AppSidebar extends React.Component<React.ComponentProps<typeof Side
           </SidebarMenu>
         </SidebarHeader>
         <SidebarContent>
-          <NavMain items={data.navMain} routerTools={routerTools} />
+          <NavMain items={navMain} routerTools={routerTools} />
           {/* <NavProjects projects={data.projects} /> */}
         </SidebarContent>
 
         {/* 底部 */}
         <SidebarFooter>
-          <NavUser user={data.user} />
+          <NavUser user={user} />
         </SidebarFooter>
         <SidebarRail />
       </Sidebar>

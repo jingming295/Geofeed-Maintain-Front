@@ -84,7 +84,7 @@ export class Main extends Component<object, MainState>
                             userData === null ? (
                                 <Navigate to="/login" />
                             ) : (
-                                <DashBoard onLogout={this.handleLogout} />
+                                <DashBoard onLogout={this.handleLogout} userData={userData} />
                             )
                         }
                     />

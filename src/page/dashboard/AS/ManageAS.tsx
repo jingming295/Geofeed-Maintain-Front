@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Component, ReactNode } from "react";
-import DataTableDemo from "./ASTable";
+import DataTableDemo, { ASData } from "./ASTable";
 import
 {
     Dialog,
@@ -15,21 +15,55 @@ import
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Plus } from "lucide-react";
+import { ASN } from "@/request/asn/ASN";
+import { ASNData } from "@/types/ASN";
+import { Skeleton } from "@/components/ui/skeleton"; // Import Skeleton component
 
 interface ManageASState
 {
     asn: string;
 }
 
-export class ManageAS extends Component<object, ManageASState>
+interface ManageASProps
+{
+    asData?: ASNData[];
+    renewASData: () => Promise<void>
+}
+
+export class ManageAS extends Component<ManageASProps, ManageASState>
 {
     state: ManageASState = {
         asn: "",
     };
 
+
+
+
+
     handleAddAS = () =>
     {
-        console.log("Adding AS Number:", this.state.asn);
+        const { asn } = this.state;
+        const { renewASData } = this.props; // Destructure renewASData from props
+        if (!asn.trim())
+        {
+            return; // Prevent submission if input is empty
+        }
+
+        ASN.addASN(asn).then(async (response) =>
+        {
+            if (response.code === 0)
+            {
+                await renewASData(); // Refresh AS data after successful addition
+            }
+            else
+            {
+                console.error("Error adding AS:", response.message);
+            }
+        }).catch((error) =>
+        {
+            console.error("Error during AS addition:", error);
+        });
+
         // Reset the input field after submission
         this.setState({ asn: "" });
     };
@@ -41,13 +75,26 @@ export class ManageAS extends Component<object, ManageASState>
 
     render(): ReactNode
     {
+        const { asData } = this.props; // Extract asData from state
+        let tableASData: ASData[] | undefined
+        if (asData)
+            tableASData = asData.map((data) =>
+            {
+                return {
+                    ASNumber: data.asn.asNumber,
+                    Prefixes: data.asn.prefixCount,
+                    PrefixesWithGeolocation: data.asn.prefixCountWithGeo,
+                    Status: data.asn.status,
+                };
+            })
+
         return (
             <div className="flex flex-col gap-6 p-6 bg-white shadow rounded-lg">
                 <h1 className="text-2xl font-semibold text-gray-800">Manage Autonomous Systems</h1>
                 <div className="flex justify-end">
                     <Dialog>
                         <DialogTrigger asChild>
-                            <Button size="icon" className="bg-blue-500 hover:bg-blue-600 text-white">
+                            <Button size="icon">
                                 <Plus />
                             </Button>
                         </DialogTrigger>
@@ -87,7 +134,13 @@ export class ManageAS extends Component<object, ManageASState>
                     </Dialog>
                 </div>
                 <div className="mt-4">
-                    <DataTableDemo />
+                    {tableASData ? (
+                        <DataTableDemo
+                            asData={tableASData} // Pass data to the table component
+                        />
+                    ) : (
+                        <Skeleton className="h-72 w-full" /> // Display skeleton when data is undefined
+                    )}
                 </div>
             </div>
         );
