@@ -106,7 +106,7 @@ interface DataTableProps
     asData: ASData[]; // Pass data from parent
 }
 
-class DataTable extends React.Component<DataTableProps>
+class ASTable extends React.Component<DataTableProps>
 {
     constructor(props: DataTableProps)
     {
@@ -241,6 +241,6 @@ function withTable<T extends { asData: ASData[] }>(
 
 
 
-const DataTableWithTable = withTable(DataTable);
+const ASTablewithTable = withTable(ASTable);
 
-export default DataTableWithTable
+export default ASTablewithTable

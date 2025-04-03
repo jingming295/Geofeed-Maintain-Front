@@ -3,7 +3,7 @@ import { SendRequest } from "../SendRequest";
 import { CommonReturn } from "@/types/SendRequest";
 import { CryptoUtils } from "@/tools/CryptoUtils";
 
-export class Auth extends SendRequest
+export class Request_Auth extends SendRequest
 {
 
     public static async login(email: string, password: string): Promise<CommonReturn<UserData>>

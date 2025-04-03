@@ -11,7 +11,7 @@ import
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Auth } from "@/request/auth/Auth";
+import { Request_Auth } from "@/request/auth/Request_Auth";
 import { ToastType } from "@/App";
 import { AuthUtils } from "@/tools/AuthUtils";
 import { UserData } from "@/types/Auth";
@@ -50,7 +50,7 @@ export class LoginForm extends Component<LoginFormProps, LoginFormState>
     event.preventDefault();
     const { email, password } = this.state;
     const { showMessage, onLogin } = this.props;
-    const result = await Auth.login(email, password);
+    const result = await Request_Auth.login(email, password);
 
     if (result.code === 0)
     {

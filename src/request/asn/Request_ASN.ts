@@ -2,7 +2,7 @@ import { CommonReturn } from "@/types/SendRequest";
 import { SendRequest } from "../SendRequest";
 import { ASNData } from "@/types/ASN";
 
-export class ASN extends SendRequest
+export class Request_ASN extends SendRequest
 {
 
     public static getASN = async (): Promise<CommonReturn<ASNData[]>> =>

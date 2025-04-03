@@ -41,18 +41,18 @@ export class AppSidebar extends React.Component<React.ComponentProps<typeof Side
 
   render()
   {
-    const { routerTools, asData, ...props } = this.props;
+    const { routerTools, asData, userData, ...props } = this.props;
     const user = {
       name: '',
       email: '',
       avatar: '',
     }
 
-    if (this.props.userData)
+    if (userData)
     {
-      user.name = this.props.userData.email.split("@")[0]
-      user.email = this.props.userData.email
-      user.avatar = this.props.userData.avatar
+      user.name = userData.email.split("@")[0]
+      user.email = userData.email
+      user.avatar = userData.avatar
     }
 
     const navManageItems = [

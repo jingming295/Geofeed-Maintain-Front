@@ -1,4 +1,4 @@
-import { Auth } from "@/request/auth/Auth";
+import { Request_Auth } from "@/request/auth/Request_Auth";
 import { UserData } from "@/types/Auth";
 
 export class AuthUtils
@@ -15,6 +15,11 @@ export class AuthUtils
         return userData ? JSON.parse(userData) : null;
     }
 
+    public static removeUserData(): void
+    {
+        localStorage.removeItem("UserData");
+    }
+
     public static async verifyUser()
     {
         const userDataFromStorage = this.getUserData();
@@ -24,7 +29,7 @@ export class AuthUtils
             return null;
         }
 
-        const response = await Auth.verifyUser()
+        const response = await Request_Auth.verifyUser()
 
         if (response.code === 0)
         {
@@ -33,6 +38,9 @@ export class AuthUtils
                 this.saveUserData(response.data);
                 return response.data
             }
+        } else
+        {
+            this.removeUserData()
         }
         return null
     }

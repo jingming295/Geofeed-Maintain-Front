@@ -34,13 +34,12 @@ export class Main extends Component<object, MainState>
     async componentDidMount()
     {
         const userData = await AuthUtils.verifyUser()
-
         if (userData)
         {
             this.setState({ userData: userData });
         } else
         {
-            this.setState({ userData: null });
+            this.setState({ userData: undefined });
         }
 
     }

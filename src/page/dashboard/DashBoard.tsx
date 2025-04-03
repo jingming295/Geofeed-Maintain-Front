@@ -7,9 +7,10 @@ import { ManageAS } from "@/page/dashboard/AS/ManageAS";
 import { Route, Routes } from "react-router-dom";
 import { RouterTools, withRouter } from "@/components/HOC/WithRouter";
 import { ASNData } from "@/types/ASN";
-import { ASN } from "@/request/asn/ASN";
+import { Request_ASN } from "@/request/asn/Request_ASN";
 import { UserData } from "@/types/Auth";
 import { ManagePrefixes } from "./Prefixes/ManagePrefixes";
+import { EditPrefix } from "./Edit/EditPrefix";
 
 interface DashBoardProps
 {
@@ -40,7 +41,7 @@ class DashBoard extends Component<DashBoardProps, DashBoardState>
 
     renewASData = async () =>
     {
-        const asndata = await ASN.getASN()
+        const asndata = await Request_ASN.getASN()
 
         if (asndata.code === 0)
         {
@@ -84,7 +85,7 @@ class DashBoard extends Component<DashBoardProps, DashBoardState>
                     </header>
                     <Separator className="h-px" orientation="horizontal" decorative />
 
-                    <div className="flex flex-1 flex-col gap-4 p-4">
+                    <div className="flex flex-1 flex-col gap-4 p-4 h-full overflow-hidden">
                         <Routes>
 
                             <Route
@@ -98,6 +99,12 @@ class DashBoard extends Component<DashBoardProps, DashBoardState>
 
                                         <Route path="/prefixes" element={
                                             <ManagePrefixes
+                                                routerTools={routerTools}
+                                            />
+                                        } />
+
+                                        <Route path="/edit" element={
+                                            <EditPrefix
                                                 routerTools={routerTools}
                                             />
                                         } />

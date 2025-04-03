@@ -7,6 +7,10 @@ button {
 cursor: pointer;
 }
 
+html, body, #root {
+  @apply h-full;
+}
+
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);

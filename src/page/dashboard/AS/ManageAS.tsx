@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Component, ReactNode } from "react";
-import DataTableDemo, { ASData } from "./ASTable";
+import ASTable, { ASData } from "./ASTable";
 import
 {
     Dialog,
@@ -15,7 +15,7 @@ import
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Plus } from "lucide-react";
-import { ASN } from "@/request/asn/ASN";
+import { Request_ASN } from "@/request/asn/Request_ASN";
 import { ASNData } from "@/types/ASN";
 import { Skeleton } from "@/components/ui/skeleton"; // Import Skeleton component
 
@@ -49,7 +49,7 @@ export class ManageAS extends Component<ManageASProps, ManageASState>
             return; // Prevent submission if input is empty
         }
 
-        ASN.addASN(asn).then(async (response) =>
+        Request_ASN.addASN(asn).then(async (response) =>
         {
             if (response.code === 0)
             {
@@ -89,7 +89,7 @@ export class ManageAS extends Component<ManageASProps, ManageASState>
             })
 
         return (
-            <div className="flex flex-col gap-6 p-6 bg-white shadow rounded-lg">
+            <div className="flex flex-col gap-6 p-6 bg-white shadow rounded-lg h-full">
                 <h1 className="text-2xl font-semibold text-gray-800">Manage Autonomous Systems</h1>
                 <div className="flex justify-end">
                     <Dialog>
@@ -135,7 +135,7 @@ export class ManageAS extends Component<ManageASProps, ManageASState>
                 </div>
                 <div className="mt-4">
                     {tableASData ? (
-                        <DataTableDemo
+                        <ASTable
                             asData={tableASData} // Pass data to the table component
                         />
                     ) : (
