@@ -39,7 +39,7 @@ export class Main extends Component<object, MainState>
             this.setState({ userData: userData });
         } else
         {
-            this.setState({ userData: undefined });
+            this.setState({ userData: null });
         }
 
     }
@@ -66,14 +66,15 @@ export class Main extends Component<object, MainState>
             <Router>
                 <Toaster richColors position="top-center" />
                 <Routes>
-                    {/* 如果 userData 是 undefined，允许用户留在 login 或 dashboard */}
                     <Route
                         path="/login"
                         element={
                             userData === null ? (
-                                <Navigate to="/login" />
-                            ) : (
                                 <LoginPage onLogin={this.handleLogin} showMessage={this.showMessage} />
+                            ) : userData === undefined ? (
+                                <LoginPage onLogin={this.handleLogin} showMessage={this.showMessage} />
+                            ) : (
+                                <Navigate to="/dashboard" />
                             )
                         }
                     />
@@ -82,26 +83,29 @@ export class Main extends Component<object, MainState>
                         element={
                             userData === null ? (
                                 <Navigate to="/login" />
+                            ) : userData === undefined ? (
+                                <DashBoard onLogout={this.handleLogout} userData={userData} />
                             ) : (
                                 <DashBoard onLogout={this.handleLogout} userData={userData} />
                             )
                         }
                     />
-
-                    {/* 根据 userData 的不同状态进行重定向 */}
                     <Route
                         path="*"
                         element={
                             userData === null ? (
                                 <Navigate to="/login" />
-                            ) : userData ? (
+                            ) : userData === undefined ? (
                                 <Navigate to="/dashboard" />
-                            ) : null // 当 userData 为 undefined 时，停留在当前页面
+                            ) : (
+                                <Navigate to="/dashboard" />
+                            )
                         }
                     />
                 </Routes>
             </Router>
         );
     }
+
 
 }

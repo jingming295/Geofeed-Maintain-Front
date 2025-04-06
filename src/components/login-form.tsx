@@ -76,7 +76,6 @@ export class LoginForm extends Component<LoginFormProps, LoginFormState>
   render()
   {
     const { email, password } = this.state;
-
     return (
       <div className={cn("flex flex-col gap-6")}>
         <Card>

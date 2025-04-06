@@ -51,21 +51,50 @@ export class ManagePrefixes extends Component<ManagePrefixesProps>
 
     }
 
-    navigateToEditPrefix = (prefixId: number, prefix: string, country: string, subdivision: string, city: string, zipcode: string): void =>
+    navigateToEditPrefix = (pd: PrefixData): void =>
     {
         const { routerTools } = this.props;
-        routerTools.navigate(`/dashboard/manage/edit?prefixid=${prefixId}&country=${country}&subdivision=${subdivision}&city=${city}&zipcode=${zipcode}&prefix=${prefix}`);
-    }
+
+        // 动态构造查询参数，仅在字段存在时添加
+        const queryParams: Record<string, string> = {};
+
+        queryParams.prefixid = pd.id.toString(); // id 必须存在
+
+        // 构造查询字符串
+        const filteredParams = Object.entries(queryParams)
+            .map(([key, value]) => `${key}=${encodeURIComponent(value)}`) // 编码键值对
+            .join('&'); // 拼接查询字符串
+
+        // 导航到目标页面
+        routerTools.navigate(`/dashboard/manage/edit?${filteredParams}`);
+    };
+
 
     render(): ReactNode
     {
-        const { prefixData } = this.state
+        const { prefixData } = this.state;
 
-        const prefixWithAction: PrefixDataWithAction[] = prefixData?.map((prefix) => ({
-            ...prefix,
-            action: () => this.navigateToEditPrefix(prefix.id, prefix.Prefix, prefix.Country || '-', prefix.SubDivisions || '-', prefix.City || '-', prefix.ZipCode || '-'), // Add action function for each prefix
-        })) || [];
+        // Helper method to transform prefixData into prefixWithAction
+        const mapPrefixWithAction = (prefixData: PrefixData[]): PrefixDataWithAction[] =>
+            prefixData.map((prefix) => ({
+                id: prefix.id,
+                Prefix: prefix.Prefix,
+                Country: prefix.Country?.name || null,
+                SubDivisions: prefix.SubDivisions?.name || null,
+                City: prefix.City?.name || null,
+                ZipCode: prefix.ZipCode?.name || null,
+                action: () => this.navigateToEditPrefix({
+                    id: prefix.id,
+                    Prefix: prefix.Prefix,
+                    Country: prefix.Country || null,
+                    SubDivisions: prefix.SubDivisions || null,
+                    City: prefix.City || null,
+                    ZipCode: prefix.ZipCode || null,
+                }),
+            }));
 
+        // Process data if it's available
+        const prefixWithAction: PrefixDataWithAction[] = prefixData ? mapPrefixWithAction(prefixData) : [];
 
         return (
             <div className="flex flex-col gap-6 p-6 bg-white shadow rounded-lg h-full">
@@ -73,16 +102,16 @@ export class ManagePrefixes extends Component<ManagePrefixesProps>
 
                 <div className="mt-4 h-full overflow-hidden">
                     {prefixData ? (
-                        <PrefixTablewithTable
-                            prefixData={prefixWithAction} // Pass data to the table component
-                        />
+                        <PrefixTablewithTable prefixData={prefixWithAction} />
                     ) : (
-                        <Skeleton className="h-72 w-full" /> // Display skeleton when data is undefined
+                        <div className="text-gray-500 flex items-center justify-center h-72 w-full">
+                            <Skeleton className="h-72 w-full" />
+                            <span>Loading prefixes, please wait...</span>
+                        </div>
                     )}
                 </div>
             </div>
-
-
-        )
+        );
     }
+
 }
