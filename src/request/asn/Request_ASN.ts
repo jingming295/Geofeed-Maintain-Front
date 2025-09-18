@@ -10,7 +10,7 @@ export class Request_ASN extends SendRequest
 
         try
         {
-            const url = `${this.serverHost}:${this.serverPort}/asn/getasn`;
+            const url = `${this.backendUrl}asn/getasn`;
 
             const params = new URLSearchParams();
 
@@ -39,7 +39,67 @@ export class Request_ASN extends SendRequest
     {
         try
         {
-            const url = `${this.serverHost}:${this.serverPort}/asn/addasn`;
+            const url = `${this.backendUrl}asn/addasn`;
+
+            const params = new URLSearchParams()
+
+            params.append('asn', asn);
+
+            const headers = new Headers({
+                'Content-Type': 'application/x-www-form-urlencoded'
+            });
+
+            const response = await this.sendPost(url, params, headers);
+
+            const data = await response.json();
+
+            return data
+        } catch (error)
+        {
+            console.error("Error during addASN:", error);
+            return {
+                code: -110,
+                message: "Internal Server Error",
+                data: undefined
+            };
+        }
+    }
+
+    public static rebuildFeed = async (asn: string): Promise<CommonReturn<ASNData>> =>
+    {
+        try
+        {
+            const url = `${this.backendUrl}asn/rebuildfeed`;
+
+            const params = new URLSearchParams()
+
+            params.append('asn', asn);
+
+            const headers = new Headers({
+                'Content-Type': 'application/x-www-form-urlencoded'
+            });
+
+            const response = await this.sendPost(url, params, headers);
+
+            const data = await response.json();
+
+            return data
+        } catch (error)
+        {
+            console.error("Error during addASN:", error);
+            return {
+                code: -110,
+                message: "Internal Server Error",
+                data: undefined
+            };
+        }
+    }
+
+    public static refreshASNPrefix = async (asn: string): Promise<CommonReturn<null>> =>
+    {
+        try
+        {
+            const url = `${this.backendUrl}asn/refreshasnprefix`;
 
             const params = new URLSearchParams()
 

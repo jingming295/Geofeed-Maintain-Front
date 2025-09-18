@@ -45,4 +45,17 @@ export class AuthUtils
         return null
     }
 
+    public static async logout()
+    {
+        const response = await Request_Auth.logout()
+        if (response.code === 0)
+        {
+            await this.removeUserData()
+            return true
+        } else
+        {
+            return false
+        }
+    }
+
 }

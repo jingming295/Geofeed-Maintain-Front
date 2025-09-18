@@ -11,7 +11,7 @@ export class Request_Prefix extends SendRequest
 
         try
         {
-            const url = `${this.serverHost}:${this.serverPort}/prefix/getprefix`;
+            const url = `${this.backendUrl}prefix/getprefix`;
 
             const params = new URLSearchParams();
 
@@ -42,7 +42,7 @@ export class Request_Prefix extends SendRequest
     {
         try
         {
-            const url = `${this.serverHost}:${this.serverPort}/prefix/getprefixbyid`;
+            const url = `${this.backendUrl}prefix/getprefixbyid`;
 
             const params = new URLSearchParams();
 
@@ -68,11 +68,11 @@ export class Request_Prefix extends SendRequest
         }
     }
 
-    public static updatePrefixLocation = async (id: number, proxyData: UpdatePrefixData): Promise<CommonReturn<PrefixData>> =>
+    public static updatePrefixLocation = async (id: number, proxyData: UpdatePrefixData): Promise<CommonReturn<number>> =>
     {
         try
         {
-            const url = `${this.serverHost}:${this.serverPort}/location/updateprefixlocation`;
+            const url = `${this.backendUrl}location/updateprefixlocation`;
 
             const params = new URLSearchParams();
 
@@ -103,5 +103,4 @@ export class Request_Prefix extends SendRequest
             };
         }
     }
-
 }

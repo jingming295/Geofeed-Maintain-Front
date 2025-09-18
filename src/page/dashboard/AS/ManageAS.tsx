@@ -18,6 +18,7 @@ import { Plus } from "lucide-react";
 import { Request_ASN } from "@/request/asn/Request_ASN";
 import { ASNData } from "@/types/ASN";
 import { Skeleton } from "@/components/ui/skeleton"; // Import Skeleton component
+import { ToastType } from "@/App";
 
 interface ManageASState
 {
@@ -28,6 +29,7 @@ interface ManageASProps
 {
     asData?: ASNData[];
     renewASData: () => Promise<void>
+    showMessage: (message: string, type?: ToastType) => void
 }
 
 export class ManageAS extends Component<ManageASProps, ManageASState>
@@ -36,14 +38,10 @@ export class ManageAS extends Component<ManageASProps, ManageASState>
         asn: "",
     };
 
-
-
-
-
     handleAddAS = () =>
     {
         const { asn } = this.state;
-        const { renewASData } = this.props; // Destructure renewASData from props
+        const { renewASData, showMessage } = this.props; // Destructure renewASData from props
         if (!asn.trim())
         {
             return; // Prevent submission if input is empty
@@ -53,11 +51,12 @@ export class ManageAS extends Component<ManageASProps, ManageASState>
         {
             if (response.code === 0)
             {
+                showMessage("AS added successfully!", "success"); // Show success message
                 await renewASData(); // Refresh AS data after successful addition
             }
             else
             {
-                console.error("Error adding AS:", response.message);
+                showMessage(`Failed to add AS: ${response.message}`, "warning");
             }
         }).catch((error) =>
         {
@@ -94,9 +93,10 @@ export class ManageAS extends Component<ManageASProps, ManageASState>
                 <div className="flex justify-end">
                     <Dialog>
                         <DialogTrigger asChild>
-                            <Button size="icon">
+                            <Button size="icon" className="rounded-full bg-gray-800 text-gray-100 shadow-md hover:bg-gray-700 hover:shadow-blue-500/50 transition duration-300 ease-in-out">
                                 <Plus />
                             </Button>
+
                         </DialogTrigger>
                         <DialogContent className="sm:max-w-[425px]">
                             <DialogHeader>

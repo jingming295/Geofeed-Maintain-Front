@@ -11,12 +11,14 @@ import { Request_ASN } from "@/request/asn/Request_ASN";
 import { UserData } from "@/types/Auth";
 import { ManagePrefixes } from "./Prefixes/ManagePrefixes";
 import { EditPrefix } from "./Edit/EditPrefix";
+import { ToastType } from "@/App";
 
 interface DashBoardProps
 {
-    onLogout: () => void
+    handleLogout: () => Promise<void>
     routerTools: RouterTools
     userData?: UserData | null
+    showMessage: (message: string, type?: ToastType) => void
 
 }
 
@@ -54,7 +56,7 @@ class DashBoard extends Component<DashBoardProps, DashBoardState>
 
     render(): ReactNode
     {
-        const { routerTools } = this.props
+        const { routerTools, showMessage, handleLogout } = this.props
         const { asData } = this.state;
         return (
             <SidebarProvider>
@@ -62,6 +64,7 @@ class DashBoard extends Component<DashBoardProps, DashBoardState>
                     routerTools={routerTools}
                     asData={asData}
                     userData={this.props.userData}
+                    handleLogout={handleLogout}
                 />
                 <SidebarInset>
                     <header className="border-b flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
@@ -93,6 +96,7 @@ class DashBoard extends Component<DashBoardProps, DashBoardState>
                                 element={
                                     <Routes>
                                         <Route path="/as" element={<ManageAS
+                                            showMessage={showMessage}
                                             asData={asData}
                                             renewASData={this.renewASData}
                                         />} />
@@ -100,6 +104,7 @@ class DashBoard extends Component<DashBoardProps, DashBoardState>
                                         <Route path="/prefixes" element={
                                             <ManagePrefixes
                                                 routerTools={routerTools}
+                                                showMessage={showMessage}
                                             />
                                         } />
 

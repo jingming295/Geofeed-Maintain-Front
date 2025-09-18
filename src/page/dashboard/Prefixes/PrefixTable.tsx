@@ -35,9 +35,15 @@ const columns: ColumnDef<PrefixDataWithAction>[] = [
         header: () => (<div > </div>),
         cell: ({ row }) => (
             <div className="flex items-center justify-center">
-                <Button onClick={row.getValue('action')} variant="outline" size="sm" className=" max-h-[23px] max-w-[30px]">
+                <Button
+                    onClick={row.getValue('action')}
+                    size="sm"
+                    className="max-h-[23px] max-w-[30px] bg-zinc-800 border-zinc-600 text-zinc-100 rounded-lg shadow-md hover:bg-zinc-700 hover:shadow-blue-500/50 transition duration-300 ease-in-out"
+                >
                     <Pencil />
                 </Button>
+
+
             </div>
         )
     },

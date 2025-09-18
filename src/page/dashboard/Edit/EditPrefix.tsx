@@ -133,6 +133,13 @@ export class EditPrefix extends Component<EditPrefixProps, EditPrefixState>
                 {
                     this.updateZipCodeData(this.state.selected.city.id);
                 }
+            } else
+            {
+                this.updateCityData(this.state.selected.countryid, -1);
+                if (this.state.selected.city.id)
+                {
+                    this.updateZipCodeData(this.state.selected.city.id);
+                }
             }
 
         }
@@ -396,7 +403,15 @@ export class EditPrefix extends Component<EditPrefixProps, EditPrefixState>
 
         if (response.code === 0)
         {
-            routerTools.navigate("/dashboard/manage/as");
+            if (response.data)
+            {
+                const asnid = response.data
+                routerTools.navigate(`/dashboard/manage/prefixes?as=${asnid}`);
+
+            } else
+            {
+                console.error("Error: No data returned from the server.");
+            }
         } else
         {
             console.error("Error updating prefix:", response.message);
@@ -479,12 +494,12 @@ export class EditPrefix extends Component<EditPrefixProps, EditPrefixState>
                                     />
                                 </div>
                                 <Button
-                                    variant="outline"
-                                    className="w-full mt-4"
+                                    className="rounded-lg py-2 px-4 bg-gray-800 text-gray-100 shadow-lg hover:bg-gray-700 hover:shadow-blue-500/50 transition duration-300 ease-in-out"
                                     onClick={this.handleSaveChanges}
                                 >
                                     Save Changes
                                 </Button>
+
                             </div>
                         ) : (
                             <Skeleton className="h-40 w-full rounded" />

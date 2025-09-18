@@ -36,6 +36,7 @@ type NavUserProps = {
     avatar: string;
   };
   isMobile: boolean;
+  handleLogout: () => Promise<void>
 };
 
 class NavUser extends React.Component<NavUserProps>
@@ -91,7 +92,7 @@ class NavUser extends React.Component<NavUserProps>
                   Account
                 </DropdownMenuItem> */}
               </DropdownMenuGroup>
-              <DropdownMenuItem className=" cursor-pointer" >
+              <DropdownMenuItem className=" cursor-pointer" onClick={this.props.handleLogout}>
                 <LogOut />
                 Log out
               </DropdownMenuItem>

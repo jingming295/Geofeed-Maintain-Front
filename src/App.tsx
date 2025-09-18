@@ -25,8 +25,9 @@ export class Main extends Component<object, MainState>
         this.setState({ userData: userData });
     };
 
-    handleLogout = () =>
+    handleLogout = async () =>
     {
+        await AuthUtils.logout();
         this.setState({ userData: null });
         toast.success("Logout successfully!");
     };
@@ -74,7 +75,7 @@ export class Main extends Component<object, MainState>
                             ) : userData === undefined ? (
                                 <LoginPage onLogin={this.handleLogin} showMessage={this.showMessage} />
                             ) : (
-                                <Navigate to="/dashboard" />
+                                <Navigate to="/dashboard/manage/as" />
                             )
                         }
                     />
@@ -84,9 +85,9 @@ export class Main extends Component<object, MainState>
                             userData === null ? (
                                 <Navigate to="/login" />
                             ) : userData === undefined ? (
-                                <DashBoard onLogout={this.handleLogout} userData={userData} />
+                                <DashBoard handleLogout={this.handleLogout} userData={userData} showMessage={this.showMessage} />
                             ) : (
-                                <DashBoard onLogout={this.handleLogout} userData={userData} />
+                                <DashBoard handleLogout={this.handleLogout} userData={userData} showMessage={this.showMessage} />
                             )
                         }
                     />
@@ -96,9 +97,9 @@ export class Main extends Component<object, MainState>
                             userData === null ? (
                                 <Navigate to="/login" />
                             ) : userData === undefined ? (
-                                <Navigate to="/dashboard" />
+                                <Navigate to="/dashboard/manage/as" />
                             ) : (
-                                <Navigate to="/dashboard" />
+                                <Navigate to="/dashboard/manage/as" />
                             )
                         }
                     />

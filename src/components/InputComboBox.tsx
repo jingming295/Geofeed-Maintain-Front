@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Component } from "react";
+import { Component } from "react";
 import { Check, ChevronsUpDown } from "lucide-react";
 
 import { cn } from "@/lib/utils";

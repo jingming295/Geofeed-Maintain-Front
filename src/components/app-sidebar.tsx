@@ -28,6 +28,7 @@ interface AppSidebarProps
   routerTools: RouterTools
   asData?: ASNData[];
   userData?: UserData | null
+  handleLogout: () => Promise<void>
 
 }
 
@@ -41,7 +42,7 @@ export class AppSidebar extends React.Component<React.ComponentProps<typeof Side
 
   render()
   {
-    const { routerTools, asData, userData, ...props } = this.props;
+    const { routerTools, asData, userData, handleLogout, ...props } = this.props;
     const user = {
       name: '',
       email: '',
@@ -109,7 +110,7 @@ export class AppSidebar extends React.Component<React.ComponentProps<typeof Side
 
         {/* 底部 */}
         <SidebarFooter>
-          <NavUser user={user} />
+          <NavUser user={user} handleLogout={handleLogout} />
         </SidebarFooter>
         <SidebarRail />
       </Sidebar>
