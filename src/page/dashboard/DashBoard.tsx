@@ -10,7 +10,6 @@ import { ASNData } from "@/types/ASN";
 import { Request_ASN } from "@/request/asn/Request_ASN";
 import { UserData } from "@/types/Auth";
 import { ManagePrefixes } from "./Prefixes/ManagePrefixes";
-import { EditPrefix } from "./Edit/EditPrefix";
 import { ToastType } from "@/App";
 
 interface DashBoardProps
@@ -105,12 +104,6 @@ class DashBoard extends Component<DashBoardProps, DashBoardState>
                                             <ManagePrefixes
                                                 routerTools={routerTools}
                                                 showMessage={showMessage}
-                                            />
-                                        } />
-
-                                        <Route path="/edit" element={
-                                            <EditPrefix
-                                                routerTools={routerTools}
                                             />
                                         } />
                                     </Routes>

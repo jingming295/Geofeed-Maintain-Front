@@ -10,7 +10,7 @@ export class Request_Location extends SendRequest
 
         try
         {
-            const url = `${this.backendUrl}location/getcountry`;
+            const url = `${this.backendUrl}/location/getcountry`;
 
             const params = new URLSearchParams();
 
@@ -39,7 +39,7 @@ export class Request_Location extends SendRequest
     {
         try
         {
-            const url = `${this.backendUrl}location/getsubdivision`;
+            const url = `${this.backendUrl}/location/getsubdivision`;
 
             const params = new URLSearchParams();
 
@@ -70,7 +70,7 @@ export class Request_Location extends SendRequest
     {
         try
         {
-            const url = `${this.backendUrl}location/getcity`;
+            const url = `${this.backendUrl}/location/getcity`;
 
             const params = new URLSearchParams();
 
@@ -102,7 +102,7 @@ export class Request_Location extends SendRequest
     {
         try
         {
-            const url = `${this.backendUrl}location/getzipcode`;
+            const url = `${this.backendUrl}/location/getzipcode`;
 
             const params = new URLSearchParams();
 

@@ -4,25 +4,26 @@ import ASTable, { ASData } from "./ASTable";
 import
 {
     Dialog,
-    DialogClose,
     DialogContent,
     DialogDescription,
     DialogFooter,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Plus } from "lucide-react";
+import { Plus, SendHorizonal } from "lucide-react";
 import { Request_ASN } from "@/request/asn/Request_ASN";
 import { ASNData } from "@/types/ASN";
 import { Skeleton } from "@/components/ui/skeleton"; // Import Skeleton component
 import { ToastType } from "@/App";
+import { Spinner } from "@/components/ui/spinner";
 
 interface ManageASState
 {
     asn: string;
+    open: boolean;
+    loading?: boolean;
 }
 
 interface ManageASProps
@@ -36,10 +37,13 @@ export class ManageAS extends Component<ManageASProps, ManageASState>
 {
     state: ManageASState = {
         asn: "",
+        open: false,
+        loading: false
     };
 
     handleAddAS = () =>
     {
+        this.setState({ loading: true });
         const { asn } = this.state;
         const { renewASData, showMessage } = this.props; // Destructure renewASData from props
         if (!asn.trim())
@@ -53,18 +57,22 @@ export class ManageAS extends Component<ManageASProps, ManageASState>
             {
                 showMessage("AS added successfully!", "success"); // Show success message
                 await renewASData(); // Refresh AS data after successful addition
+                this.setState({ open: false, asn: "" }); // Close dialog and reset input field
             }
             else
             {
                 showMessage(`Failed to add AS: ${response.message}`, "warning");
+                this.setState({ asn: "" }); // Close dialog and reset input field
             }
         }).catch((error) =>
         {
             console.error("Error during AS addition:", error);
+        }).finally(() =>
+        {
+            this.setState({ loading: false });
         });
 
         // Reset the input field after submission
-        this.setState({ asn: "" });
     };
 
     handleChange = (event: React.ChangeEvent<HTMLInputElement>) =>
@@ -91,13 +99,10 @@ export class ManageAS extends Component<ManageASProps, ManageASState>
             <div className="flex flex-col gap-6 p-6 bg-white shadow rounded-lg h-full">
                 <h1 className="text-2xl font-semibold text-gray-800">Manage Autonomous Systems</h1>
                 <div className="flex justify-end">
-                    <Dialog>
-                        <DialogTrigger asChild>
-                            <Button size="icon" className="rounded-full bg-gray-800 text-gray-100 shadow-md hover:bg-gray-700 hover:shadow-blue-500/50 transition duration-300 ease-in-out">
-                                <Plus />
-                            </Button>
-
-                        </DialogTrigger>
+                    <Button size="icon" className="rounded-full bg-gray-800 text-gray-100 shadow-md hover:bg-gray-700 hover:shadow-blue-500/50 transition duration-300 ease-in-out" onClick={() => this.setState({ open: true })}>
+                        <Plus />
+                    </Button>
+                    <Dialog open={this.state.open} onOpenChange={(open) => this.setState({ open })}>
                         <DialogContent className="sm:max-w-[425px]">
                             <DialogHeader>
                                 <DialogTitle>Add Autonomous System (AS) Number</DialogTitle>
@@ -120,15 +125,15 @@ export class ManageAS extends Component<ManageASProps, ManageASState>
                                 </div>
                             </div>
                             <DialogFooter>
-                                <DialogClose asChild>
-                                    <Button
-                                        type="submit"
-                                        onClick={this.handleAddAS}
-                                        disabled={!this.state.asn.trim()} // Disable button if input is empty
-                                    >
-                                        ADD
-                                    </Button>
-                                </DialogClose>
+                                <Button
+                                    onClick={this.handleAddAS}
+                                    disabled={!this.state.asn.trim() || this.state.loading} // Disable button if input is empty or loading
+                                >
+                                    {
+                                        this.state.loading ? <Spinner /> : <SendHorizonal />
+                                    }
+                                    ADD
+                                </Button>
                             </DialogFooter>
                         </DialogContent>
                     </Dialog>

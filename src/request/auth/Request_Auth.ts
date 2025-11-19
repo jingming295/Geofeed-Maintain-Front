@@ -10,7 +10,7 @@ export class Request_Auth extends SendRequest
     {
         try
         {
-            const url = `${this.backendUrl}auth/login`;
+            const url = `${this.backendUrl}/auth/login`;
             const params = new URLSearchParams();
 
             const hashedPassword = await CryptoUtils.toSHA256(password);
@@ -40,7 +40,7 @@ export class Request_Auth extends SendRequest
     {
         try
         {
-            const url = `${this.backendUrl}auth/logout`;
+            const url = `${this.backendUrl}/auth/logout`;
             const params = new URLSearchParams();
             const headers = new Headers({
                 'Content-Type': 'application/json'
@@ -63,7 +63,7 @@ export class Request_Auth extends SendRequest
     {
         try
         {
-            const url = `${this.backendUrl}auth/verifyuser`;
+            const url = `${this.backendUrl}/auth/verifyuser`;
             const params = new URLSearchParams();
             const headers = new Headers({
                 'Content-Type': 'application/json'

@@ -8,10 +8,9 @@ export class Request_Prefix extends SendRequest
 
     public static getPrefix = async (asn: string): Promise<CommonReturn<PrefixData[]>> =>
     {
-
         try
         {
-            const url = `${this.backendUrl}prefix/getprefix`;
+            const url = `${this.backendUrl}/prefix/getprefix`;
 
             const params = new URLSearchParams();
 
@@ -42,7 +41,7 @@ export class Request_Prefix extends SendRequest
     {
         try
         {
-            const url = `${this.backendUrl}prefix/getprefixbyid`;
+            const url = `${this.backendUrl}/prefix/getprefixbyid`;
 
             const params = new URLSearchParams();
 
@@ -72,7 +71,7 @@ export class Request_Prefix extends SendRequest
     {
         try
         {
-            const url = `${this.backendUrl}location/updateprefixlocation`;
+            const url = `${this.backendUrl}/location/updateprefixlocation`;
 
             const params = new URLSearchParams();
 
@@ -96,6 +95,31 @@ export class Request_Prefix extends SendRequest
         } catch (error)
         {
             console.error("Error during updatePrefixLocation:", error);
+            return {
+                code: -110,
+                message: "Internal Server Error",
+                data: undefined
+            };
+        }
+    }
+
+    public static autoGenGeolocation = async (asn: string): Promise<CommonReturn<null>> =>
+    {
+        try
+        {
+            const url = `${this.backendUrl}/prefix/autogengeolocation`;
+            const params = new URLSearchParams();
+            params.append('asn', asn);
+            const headers = new Headers({
+                'Content-Type': 'application/x-www-form-urlencoded'
+            });
+            const response = await this.sendPost(url, params, headers);
+            const data = await response.json();
+            return data
+        }
+        catch (error)
+        {
+            console.error("Error during autoGeolocatePrefixes:", error);
             return {
                 code: -110,
                 message: "Internal Server Error",

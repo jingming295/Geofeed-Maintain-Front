@@ -71,11 +71,15 @@ class InputComboBox extends Component<InputComboBoxProps, InputComboBoxState>
                         aria-expanded={open}
                         className="w-full justify-between"
                     >
-                        {selectedValue !== null
-                            ? extendedItems.find((item) => item.id === selectedValue)?.name
-                            : "-"}
-                        <ChevronsUpDown className="opacity-50" />
+                        <div className="flex-1 truncate overflow-hidden text-ellipsis whitespace-nowrap text-left">
+                            {selectedValue !== null
+                                ? extendedItems.find((item) => item.id === selectedValue)?.name
+                                : "-"}
+                        </div>
+
+                        <ChevronsUpDown className="opacity-50 ml-2 shrink-0" />
                     </Button>
+
                 </PopoverTrigger>
                 <PopoverContent
                     align="end"

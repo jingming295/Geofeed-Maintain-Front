@@ -32,13 +32,13 @@ import { PrefixDataWithAction } from "@/types/Prefix";
 const columns: ColumnDef<PrefixDataWithAction>[] = [
     {
         accessorKey: "action",
-        header: () => (<div > </div>),
+        header: () => (<div className="text-center select-none">Action</div>),
         cell: ({ row }) => (
-            <div className="flex items-center justify-center">
+            <div className="w-[100%] flex items-center justify-center">
                 <Button
                     onClick={row.getValue('action')}
                     size="sm"
-                    className="max-h-[23px] max-w-[30px] bg-zinc-800 border-zinc-600 text-zinc-100 rounded-lg shadow-md hover:bg-zinc-700 hover:shadow-blue-500/50 transition duration-300 ease-in-out"
+                    className="ml-[20px] mr-[20px] min-w-[50%] bg-zinc-800 border-zinc-600 text-zinc-100 rounded-lg shadow-md hover:bg-zinc-700 hover:shadow-blue-500/50 transition duration-300 ease-in-out"
                 >
                     <Pencil />
                 </Button>
@@ -83,7 +83,7 @@ const columns: ColumnDef<PrefixDataWithAction>[] = [
             </div>
         ),
         cell: ({ row }) => (
-            <div className="flex items-center">
+            <div className="flex items-center min-w-[150px] max-w-[150px]">
                 {row.getValue("Country") || "-"}
             </div>
         ),
@@ -104,7 +104,7 @@ const columns: ColumnDef<PrefixDataWithAction>[] = [
             </div>
         ),
         cell: ({ row }) => (
-            <div className="flex items-center">
+            <div className="flex items-center min-w-[80px] max-w-[80px]">
                 {row.getValue("SubDivisions") || "-"}
             </div>
         ),
@@ -125,7 +125,7 @@ const columns: ColumnDef<PrefixDataWithAction>[] = [
             </div>
         ),
         cell: ({ row }) => (
-            <div className="flex items-center">
+            <div className="flex items-center min-w-[150px] max-w-[300px]">
                 {row.getValue("City") || "-"}
             </div>
         ),
@@ -146,7 +146,7 @@ const columns: ColumnDef<PrefixDataWithAction>[] = [
             </div>
         ),
         cell: ({ row }) => (
-            <div className="flex items-center">
+            <div className="flex items-center min-w-[100px] max-w-[100px]">
                 {row.getValue("ZipCode") || "-"}
             </div>
         ),
@@ -305,7 +305,7 @@ function withTable<T extends { prefixData: PrefixDataWithAction[] }>(
                 {
                     const containerHeight = tableContainerRef.current.offsetHeight;
                     const headerHeight = 40;
-                    const rowHeight = 40;
+                    const rowHeight = 48.8;
                     const availableHeight = containerHeight - headerHeight - 68 - 64;
                     const dynamicPageSize = Math.floor(availableHeight / rowHeight);
                     setPagination((prev) => ({

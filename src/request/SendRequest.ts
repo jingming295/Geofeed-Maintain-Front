@@ -1,10 +1,10 @@
 export class SendRequest
 {
-    private static serverHost = import.meta.env.VITE_APP_SERVER_HOST;
-    private static serverPort = import.meta.env.VITE_APP_SERVER_PORT;
-    private static devmode = import.meta.env.VITE_APP_DEVMODE;
+    private static devmodeserverurl = import.meta.env.VITE_APP_DEV_SERVER;
 
-    static backendUrl = SendRequest.devmode ? `${SendRequest.serverHost}:${SendRequest.serverPort}/` : '/';
+    private static devmode = import.meta.env.VITE_APP_DEVMODE
+
+    public static backendUrl = this.devmode ? this.devmodeserverurl : `${window.location.origin}`
 
     public static async sendGet(url: string, params: URLSearchParams, headers: Headers, signal?: AbortSignal)
     {
