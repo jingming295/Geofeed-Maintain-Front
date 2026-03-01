@@ -357,9 +357,9 @@ export class ManagePrefixes extends Component<ManagePrefixesProps>
                         <div className="flex items-center justify-center h-full w-full">
                             {/* 使用一个 Div 来模拟 Skeleton，并将文字居中 */}
                             <div className="
-                                    flex items-center justify-center 
-                                    w-full min-h-[300px] h-full rounded-md 
-                                    bg-gray-200 dark:bg-gray-700 
+                                    flex items-center justify-center
+                                    w-full min-h-[300px] h-full rounded-md
+                                    bg-gray-200 dark:bg-gray-700
                                     animate-pulse
                                 ">
                                 <span className="text-gray-500 dark:text-gray-400 text-lg font-medium">

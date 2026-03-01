@@ -184,6 +184,7 @@ class ASTable extends React.Component<DataTableProps>
                         <Button
                             variant="outline"
                             size="sm"
+                            className="select-none" // 添加这一行
                             onClick={() => table.previousPage()}
                             disabled={!table.getCanPreviousPage()}
                         >
@@ -192,6 +193,7 @@ class ASTable extends React.Component<DataTableProps>
                         <Button
                             variant="outline"
                             size="sm"
+                            className="select-none" // 添加这一行
                             onClick={() => table.nextPage()}
                             disabled={!table.getCanNextPage()}
                         >

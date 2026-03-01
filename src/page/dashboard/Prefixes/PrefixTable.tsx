@@ -241,7 +241,7 @@ class PrefixTable extends React.Component<DataTableProps>
                     </Table>
                 </div>
                 <div className="flex items-center justify-end space-x-2 py-4">
-                    <div className="flex-1 text-sm text-muted-foreground">
+                    <div className="flex-1 text-sm text-muted-foreground select-none">
                         {`Displaying rows ${table.getState().pagination.pageIndex *
                             table.getState().pagination.pageSize +
                             1} - ${Math.min(
@@ -254,6 +254,7 @@ class PrefixTable extends React.Component<DataTableProps>
                         <Button
                             variant="outline"
                             size="sm"
+                            className="select-none" // 添加这一行
                             onClick={() => table.previousPage()}
                             disabled={!table.getCanPreviousPage()}
                         >
@@ -262,6 +263,7 @@ class PrefixTable extends React.Component<DataTableProps>
                         <Button
                             variant="outline"
                             size="sm"
+                            className="select-none" // 添加这一行
                             onClick={() => table.nextPage()}
                             disabled={!table.getCanNextPage()}
                         >
@@ -326,6 +328,7 @@ function withTable<T extends { prefixData: PrefixDataWithAction[] }>(
         const table = useReactTable({
             data: props.prefixData, // 使用传入的数据
             columns,
+            autoResetPageIndex: false, // 禁止自动重置页码
             onSortingChange: setSorting,
             onPaginationChange: setPagination,
             onColumnFiltersChange: setColumnFilters,
